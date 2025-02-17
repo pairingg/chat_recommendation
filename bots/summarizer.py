@@ -1,13 +1,13 @@
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from konlpy.tag import Okt
-import re
+from bots.integrator import *
 
 load_dotenv()
 
 
 class SummaryBot:
-    def __init__(self):
+    def __init__(self, integrator):
         self.llm = ChatOpenAI(
             model="gpt-4o-mini",
             temperature=0,
@@ -16,28 +16,11 @@ class SummaryBot:
             streaming=False,
         )
         self.okt = Okt()
+        self.integrator = integrator
 
-    def clean_chatlog(self, chatlog):
-        messages = [chat.strip() for chat in chatlog.split("\n")]
-        result = []
-        for message in messages:
-            speaker = message[0]
-            message = message[3:]
-            singles_removed = re.sub("([ㄱ-ㅎㅏ-ㅣ]+)", "", message)
-            emoji_removed = re.sub("[^\w\s\n]", "", singles_removed)
-
-            words = self.okt.pos(emoji_removed)
-            nouns_and_adjectives = [
-                word for word, tag in words if tag in ["Noun", "Adjective"]
-            ]
-            processed = " ".join(nouns_and_adjectives)
-            processed = re.sub(r"님은요|에요|네요|그런데|그래서", "", processed)
-            result.append(f"{speaker}: {processed}")
-
-        return "\n".join(result)
-
-    def get_summary(self, chatlog):
-        processed_chatlog = self.clean_chatlog(chatlog)
+    def get_summary(self):
+        chatlog = self.integrator.get_chatlog()
+        processed_chatlog = self.integrator.clean_chatlog(chatlog)
         prompt = f"""
         당신은 호감도 분석을 위해 대화 내용을 요약하는 챗봇입니다.
         대화의 주체는 A 와 B 두 사람입니다. 각 사람의 취미, 관심사, 취향 등 상대의 호감도를 높이기 위한 주제에 집중해 대화 내용을 요약하세요.

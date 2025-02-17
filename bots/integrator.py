@@ -1,26 +1,38 @@
 from pymongo import MongoClient
-from datetime import datetime
+import re
 
-mongodb_address = ""
-database_name = ""
-collection_name = ""
 
-# MongoDB 연결
-client = MongoClient(mongodb_address)
-db = client[database_name]
-collection = db[collection_name]
+class Integrator:
+    mongodb_address = ""
+    database_name = ""
+    collection_name = ""
 
-# 예시: 'roomId'와 'createdAt'을 기준으로 메시지 가져오기
-room_id = "room_123"
-start_time = datetime(2023, 1, 1)
-end_time = datetime(2023, 12, 31)
+    def __init__(self, room_id):
+        self.room_id = room_id
 
-# 'roomId'가 "room_123"이고, 'createdAt'이 2023년 1월 1일부터 12월 31일 사이인 메시지 가져오기
-query = {"roomId": room_id, "createdAt": {"$gte": start_time, "$lte": end_time}}
+    def get_chatlog(self):
+        client = MongoClient(self.mongodb_address)
+        db = client[self.database_name]
+        collection = db[self.collection_name]
 
-# 데이터 가져오기
-messages = collection.find(query)
+        query = {"roomId": self.room_id}
+        messages = collection.find(query)
 
-# 메시지 출력
-for message in messages:
-    print(message)
+    def clean_chatlog(self, chatlog):
+        messages = [chat.strip() for chat in chatlog.split("\n")]
+        result = []
+        for message in messages:
+            speaker = message[0]
+            message = message[3:]
+            singles_removed = re.sub("([ㄱ-ㅎㅏ-ㅣ]+)", "", message)
+            emoji_removed = re.sub("[^\w\s\n]", "", singles_removed)
+
+            words = self.okt.pos(emoji_removed)
+            nouns_and_adjectives = [
+                word for word, tag in words if tag in ["Noun", "Adjective"]
+            ]
+            processed = " ".join(nouns_and_adjectives)
+            processed = re.sub(r"님은요|에요|네요|그런데|그래서", "", processed)
+            result.append(f"{speaker}: {processed}")
+
+        return "\n".join(result)
