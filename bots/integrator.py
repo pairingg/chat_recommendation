@@ -18,6 +18,8 @@ class Integrator:
         query = {"roomId": self.room_id}
         messages = collection.find(query)
 
+        return messages
+
     def clean_chatlog(self, chatlog):
         messages = [chat.strip() for chat in chatlog.split("\n")]
         result = []
