@@ -3,3 +3,4 @@ fastapi
 langchain-openai
 python-dotenv
 konlpy
+pymongo
