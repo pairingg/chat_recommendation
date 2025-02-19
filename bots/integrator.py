@@ -1,6 +1,9 @@
 from pymongo import MongoClient
 import re
 
+# 한국어 불용어 사전: https://www.ranks.nl/stopwords/korean
+# txt 파일이나 csv 파일로 정리해놓고 이를 불러와서 사용
+
 
 class Integrator:
     mongodb_address = ""
