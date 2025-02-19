@@ -1,0 +1,26 @@
+# directory_structure.txt
+
+CHATBOT/
+└── interest_analysis/
+│   └── description/
+│   │   ├── description_for_interest_analysis.txt
+│   │   ├── directory_structure.txt
+│   │  
+│   └── initial_test/
+│   │   ├── test.py
+│   │   ├── test2.py
+│   │  
+│   └── module/                    # 모듈 관련 파일들을 모아둔 폴더
+│   │   ├── __init__.py            # 모듈 초기화 파일 (빈 파일)
+│   │   ├── db_getter.py           # MongoDB에서 데이터를 조회하는 함수 정의
+│   │   ├── dummy.py               # 더미 데이터를 로드하는 함수 정의
+│   │   ├── inference.py           # 모델 추론(프롬프트 로드, LLM 호출, 분석 함수) 정의
+│   │   └── schemas.py             # Pydantic 스키마(데이터 구조) 정의
+│   │ 
+│   ├── .env   
+│   ├── .gitignore   
+│   ├── api.py                      # FastAPI 엔드포인트 정의
+│   ├── dummy_chat_logs.yaml        # 더미 채팅 로그 데이터 파일
+│   ├── prompt_config.yaml          # 프롬프트 설정 파일
+│   ├── README.md                       
+│   ├── requirements.txt            # 필요 패키지 목록
