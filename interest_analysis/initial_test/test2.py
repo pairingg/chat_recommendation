@@ -150,7 +150,7 @@ async def interest_analysis_endpoint(request: ChatroomLogsRequest):
     상대방의 호감도 평가와 이유 결과를 반환
     """
     # # 더미 채팅 로그 데이터로 테스트 시 아래 주석 해제하여 사용 가능
-    # dummy_request = load_dummy_chat_logs("1번 대화") -> 1~5 중 대화 선택 
+    # dummy_request = load_dummy_chat_logs("2번 대화") # -> 1~5 중 대화 선택 
     # result = interest_analysis_model_function(dummy_request)
 
     result = interest_analysis_model_function(request)
