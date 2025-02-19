@@ -1,4 +1,5 @@
-# 필요한 라이브러리 불러오기
+# test.py
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
@@ -6,18 +7,14 @@ from dotenv import load_dotenv
 import os
 import uvicorn
 
-# LangChain 관련 라이브러리
 from langchain_openai import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage
 
-# 환경 변수 로드
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# FastAPI 앱 초기화
 app = FastAPI()
 
-# LangChain을 사용한 OpenAI 모델 초기화
 llm = ChatOpenAI(
     model="gpt-4o",
     temperature=0.3,

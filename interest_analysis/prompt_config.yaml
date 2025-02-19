@@ -1,3 +1,5 @@
+# prompt_config.yaml
+
 prompts:
   system_prompt: |
     당신은 감정 분석 전문가입니다.

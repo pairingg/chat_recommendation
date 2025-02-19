@@ -1,25 +1,24 @@
-from fastapi import FastAPI  # 웹 프레임워크
-import uvicorn  # FastAPI 앱 실행 위함
+# test2.py
 
-from pydantic import BaseModel  # 데이터 유효성 검증
-from typing import List  # 사용할 타입 힌트: 리스트
+from fastapi import FastAPI  
+import uvicorn  #
 
-from dotenv import load_dotenv  # .env 파일 접근해 환경 변수 로드
-import os  # OS와 상호작용
-import yaml  # YAML 읽어오기 위함
+from pydantic import BaseModel 
+from typing import List  
 
-# OpenAI 관련 라이브러리
+from dotenv import load_dotenv 
+import os  
+import yaml  
+
 from langchain_openai import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage
 
-# 환경 변수 로드
-load_dotenv()  # .env
+
+load_dotenv()  
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# FastAPI 앱 인스턴스 생성
 app = FastAPI()
 
-# LangChain을 사용해 OpenAI 모델 초기화
 llm = ChatOpenAI(
     model="gpt-4o",
     temperature=0.3,
@@ -33,7 +32,7 @@ def load_prompts():
     프롬프트 설정을 읽어와 딕셔너리 형태로 반환하는 함수.
     """
     # 현재 파일(initial_application.py)의 디렉터리 경로를 사용하여 YAML 파일 경로 설정
-    file_path = os.path.join(os.path.dirname(__file__), "prompt_config.yaml")
+    file_path = os.path.join(os.path.dirname(__file__), "../prompt_config.yaml")
     with open(file_path, "r", encoding="utf-8") as file:
         prompt_data = yaml.safe_load(file)
     return prompt_data["prompts"]  # 작성한 System & User Prompt
@@ -46,7 +45,7 @@ def load_dummy_chat_logs(dialogue_key: str):
     첫번째 발화자를 '나'로 강제한 후 ChatroomLogsRequest 객체로 반환하는 함수.
     """
     # 현재 파일의 디렉터리 경로를 사용하여 YAML 파일 경로 설정
-    file_path = os.path.join(os.path.dirname(__file__), "dummy_chat_logs.yaml")
+    file_path = os.path.join(os.path.dirname(__file__), "../dummy_chat_logs.yaml")
     with open(file_path, "r", encoding="utf-8") as file:
         dummy_data = yaml.safe_load(file)
     dummy_logs = dummy_data["dummy_chat_logs"]
@@ -161,6 +160,6 @@ if __name__ == "__main__":
     uvicorn.run(
         "initial_application:app",  # 현재 파일 이름
         reload=True,  # 코드 변경 시 자동 재시작 (개발 모드)
-        host="0.0.0.0",  # 모든 네트워크 인터페이스에서 접근 가능하도록 설정합니다.
+        host="0.0.0.0",  # 모든 네트워크 인터페이스에서 접근 가능하도록 설정
         port=8085,    # 포트 8085에서 서버 실행
     )
