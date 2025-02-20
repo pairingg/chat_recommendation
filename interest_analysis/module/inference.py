@@ -58,13 +58,4 @@ def interest_analysis_model_function(chat_logs_request):
     response = llm.invoke([system_prompt, user_prompt])
     result_text = response.content.strip()
 
-    if "호감 있음" in result_text:
-        sentiment = "호감 있음"
-    elif "호감 없음" in result_text:
-        sentiment = "호감 없음"
-    else:
-        sentiment = "분석 불가"
-
-    explanation = result_text.replace(sentiment, "").strip()
-
-    return {"호감도": sentiment, "이유": explanation}
+    return {"호감도 분석 결과": result_text}
