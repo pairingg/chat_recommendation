@@ -22,7 +22,7 @@ async def interest_analysis(request: ChatroomRequest):
 
     return result
 
-@app.post("/interest_analysis/dummy")
+@app.post("/interest_analysis/test")
 async def interest_analysis_dummy(dialogue_key: str, my_userId: str):
     """
     더미 데이터를 활용하여 호감도 평가 수행 API 엔드포인트 정의
