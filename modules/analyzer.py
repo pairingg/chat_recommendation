@@ -11,7 +11,7 @@ class Analyzer:
     def __init__(self):
         self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
 
-    def get_analysis(self, chatlog):
+    async def get_analysis(self, chatlog):
         prompts = load_prompts()
         system_prompt = SystemMessage(content=prompts["system_prompt"])
         user_prompt_text = prompts["user_prompt"].format(chat_history=chatlog)
@@ -20,7 +20,7 @@ class Analyzer:
         response = self.llm.invoke([system_prompt, user_prompt])
         result_text = response.content.strip()
 
-        return {"호감도 분석 결과": result_text}
+        return result_text
 
 
 def load_prompts():
