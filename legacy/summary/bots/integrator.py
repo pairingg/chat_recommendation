@@ -19,9 +19,11 @@ class Integrator:
         collection = db[self.collection_name]
 
         query = {"roomId": self.room_id}
-        messages = collection.find(query)
+        messages = collection.find(query).sort("createdAt", 1)
 
-        return messages
+        chatlog = "\n".join(f"{msg['sender']}: {msg['message']}" for msg in messages)
+
+        return chatlog
 
     def clean_chatlog(self, chatlog):
         messages = [chat.strip() for chat in chatlog.split("\n")]
@@ -29,7 +31,7 @@ class Integrator:
         for message in messages:
             speaker = message[0]
             message = message[3:]
-            singles_removed = re.sub("([ㄱ-ㅎㅏ-ㅣ]+)", "", message)
+            singles_removed = re.sub(r"([ㄱ-ㅎㅏ-ㅣ])\1{2,}", r"\1\1", message)
             emoji_removed = re.sub("[^\w\s\n]", "", singles_removed)
 
             words = self.okt.pos(emoji_removed)
