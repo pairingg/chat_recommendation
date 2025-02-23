@@ -1,13 +1,13 @@
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from konlpy.tag import Okt
-from bots.integrator import *
+from modules.integrator import *
 
 load_dotenv()
 
 
-class SummaryBot:
-    def __init__(self, integrator):
+class Summarizer:
+    def __init__(self):
         self.llm = ChatOpenAI(
             model="gpt-4o-mini",
             temperature=0,
@@ -16,17 +16,14 @@ class SummaryBot:
             streaming=False,
         )
         self.okt = Okt()
-        self.integrator = integrator
 
-    def get_summary(self):
-        chatlog = self.integrator.get_chatlog()
-        processed_chatlog = self.integrator.clean_chatlog(chatlog)
+    def get_summary(self, chatlog):
         prompt = f"""
         당신은 호감도 분석을 위해 대화 내용을 요약하는 챗봇입니다.
         대화의 주체는 A 와 B 두 사람입니다. 각 사람의 취미, 관심사, 취향 등 상대의 호감도를 높이기 위한 주제에 집중해 대화 내용을 요약하세요.
         취미, 관심사, 취향 이외의 내용은 제외해줘.
         일관된 내용들을 bullet point 를 이용해 정리해줘.
-        대화 내용: {processed_chatlog}
+        대화 내용: {chatlog}
         """
         response = self.llm(prompt)
 
@@ -34,7 +31,7 @@ class SummaryBot:
 
 
 if __name__ == "__main__":
-    bot = SummaryBot()
+    bot = Summarizer()
 
     chat = """A: 안녕하세요! 반갑습니다.  
     B: 안녕하세요!ㅎㅎ 만나서 반가워요.  
@@ -63,3 +60,19 @@ if __name__ == "__main__":
 
     # +++++++++++++++++++++debug tokenizer+++++++++++++++++++++
     # print(bot.clean_chatlog(chat))
+
+
+""" 사용자가 보는거
+대화 요약:
+- A와 B 모두 불고기를 좋아함
+- A는 매운 음식을 좋아하고, B는 매운 음식을 못 먹음
+- B는 주말에 운동과 등산을 즐김, A도 등산을 좋아함
+- B는 강아지를 정말 좋아하고, A도 강아지와 함께 산책하는 것을 즐거워함
+
+호감도 분석:
+상대가 나의 말에 적극적으로 반응하고, 썸을 탄다는 뉘앙스를 풍기네요! 호감도가 있어보여요.
+
+다음 대화:
+둘의 공통 관심사는 강아지네요. 강아지에 대한 얘기를 더 하는 걸 추천드려요
+아직 취미에 대한 이야기가 부족해보여요. 상대의 취미 중에 "영화 감상" 이 있네요!
+"""
