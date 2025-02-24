@@ -20,7 +20,7 @@ class Summarizer:
         )
         self.okt = Okt()
 
-    def get_summary(self, chatlog):
+    async def get_summary(self, chatlog):
         prompt = f"""
         당신은 호감도 분석을 위해 대화 내용을 요약하는 챗봇입니다.
         대화의 주체는 나 와 상대 두 사람입니다. 각 사람의 취미, 관심사, 취향 등 상대의 호감도를 높이기 위한 주제에 집중해 대화 내용을 요약하세요.
