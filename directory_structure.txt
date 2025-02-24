@@ -1,0 +1,46 @@
+# directory_structure.txt
+
+CHATBOT
+├── config
+│   ├── analyzer_prompt.yaml
+│   ├── dummy_chat_logs.yaml
+│   └── recommender_prompt.yaml
+│
+├── legacy
+│   └── interest_analysis
+│   │   ├── description
+│   │   │   ├── description_for_interest_analysis.md
+│   │   │   └── directory_structure.txt
+│   │   ├── initial_test
+│   │   │   ├── test.py
+│   │   │   └── test2.py
+│   │   └── module
+│   │   │   ├── __init__.py
+│   │   │   ├── db_getter.py
+│   │   │   ├── dummy.py
+│   │   │   ├── inference.py
+│   │   │   └── schemas.py
+│   │   ├── .gitignore
+│   │   ├── api.py
+│   │   ├── README.md
+│   │   └── requirements.txt
+│   ├── summary
+│   │   └── bots
+│   │   │   ├── integrator.py
+│   │   │   ├── summarizer.py
+│   │   ├── __init__.py
+│   │   ├── README.md
+│   │   └── requirements.txt
+│   │
+├── modules
+│   ├── __init__.py
+│   ├── analyzer.py
+│   ├── integrator.py
+│   ├── recommender.py
+│   └── summarizer.py
+├── .gitignore
+├── api.py
+├── directory_structure.txt
+├── README.md
+└── requirements.txt
+
