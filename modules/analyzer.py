@@ -32,8 +32,10 @@ class Analyzer:
 
         return prompt_data["prompts"]
 
-    async def get_analysis(self, chatlog):
+    async def get_analysis(self, chatlog): # 아래 비동기 함수 선언 지우면 됩니다.
         prompts = self.prompts
+    async def get_analysis(self, chatlog):
+        prompts = load_prompts()
         system_prompt = SystemMessage(content=prompts["system_prompt"])
         user_prompt_text = prompts["user_prompt"].format(chat_history=chatlog)
         user_prompt = HumanMessage(content=user_prompt_text)
