@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from konlpy.tag import Okt
-from integrator import *
+from .integrator import *
 import yaml
 
 load_dotenv()

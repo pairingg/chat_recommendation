@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import mysql.connector
+from konlpy.tag import Okt
 import re
 
 
@@ -10,6 +11,7 @@ class Integrator:
         self.db = db
         self.collection = collection
         self.room_id = room_id
+        self.okt = Okt()
 
     def get_chatlog(self, user_id):
         client = MongoClient(self.address)
@@ -43,35 +45,6 @@ class Integrator:
             result.append(f"{speaker}: {processed}")
 
         return "\n".join(result)
-
-    def get_our_id(self, user_id):
-
-        # 클라이언트 측에서 상대방 아이디 받을 수 있으면 이 코드 안적어도 될 듯
-        # 버튼 누른 사람 아이디(내 아이디)만 전달 받으니까 상대방 아이디를 몰라서
-        client = MongoClient(self.address)
-        db = client[self.db]
-        collection = db[self.collection]
-
-        query = {"roomId": self.room_id}
-        messages = collection.find(query)
-
-        my_id = None
-        your_id = None
-        index = 0
-
-        while index < len(messages):
-            msg = messages[index]
-
-            if msg["sender"] == user_id:
-                my_id = user_id
-            else:
-                your_id = msg["sender"]
-            if my_id is not None and your_id is not None:
-                break
-
-            index += 1  # 다음 메시지로 이동
-
-        return my_id, your_id
 
     def get_user_info(self, user_id):
         
