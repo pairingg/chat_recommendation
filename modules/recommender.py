@@ -1,4 +1,3 @@
-# recommender.py
 import os
 import yaml
 from dotenv import load_dotenv
@@ -12,7 +11,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 class Recommender:
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4o",  # 추천 전용 모델 (모델명은 예시입니다)
+            model="gpt-4o", 
             temperature=1.0,
             openai_api_key=OPENAI_API_KEY,
             max_tokens=None,
@@ -29,7 +28,7 @@ class Recommender:
             prompt_data = yaml.safe_load(file)
         return prompt_data["prompts"]
 
-    def get_recommendation(self, summary, analysis, my_info, your_info):
+    async def get_recommendation(self, summary, analysis, my_info, your_info):
         # system prompt에 세 단계 결과와 DB 정보를 포맷팅해서 전달
         system_text = self.prompts["system_prompt"].format(
             summary=summary, analysis=analysis, my_info=my_info, your_info=your_info
@@ -37,7 +36,7 @@ class Recommender:
         system_prompt = SystemMessage(content=system_text)
         user_prompt = HumanMessage(content=self.prompts["user_prompt"])
 
-        response = self.llm.invoke([system_prompt, user_prompt])
+        response = self.llm([system_prompt, user_prompt])
         result_text = response.content.strip()
         return "다음 대화 추천: \n" + result_text
 

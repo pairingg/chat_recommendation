@@ -32,13 +32,13 @@ class Analyzer:
 
         return prompt_data["prompts"]
 
-    async def get_analysis(self, chatlog): # 아래 비동기 함수 선언 지우면 됩니다.
+    async def get_analysis(self, chatlog):
         prompts = self.prompts
         system_prompt = SystemMessage(content=prompts["system_prompt"])
         user_prompt_text = prompts["user_prompt"].format(chat_history=chatlog)
         user_prompt = HumanMessage(content=user_prompt_text)
-
-        response = self.llm.invoke([system_prompt, user_prompt])
+        
+        response = self.llm([system_prompt, user_prompt])
         result_text = response.content.strip()
 
         return result_text
