@@ -29,10 +29,10 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 # 포트 논의 필요: 일단 임의 설정
-EXPOSE 8888
+EXPOSE 8086
 
 # uvicorn을 사용해 FastAPI 앱 실행
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8888", "--reload"]
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8086", "--reload"]
 
 # Docker 캐시를 최대한 활용하기 위한 방법 모색 필요
     
