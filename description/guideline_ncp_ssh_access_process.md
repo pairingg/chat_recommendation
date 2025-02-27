@@ -6,6 +6,7 @@ ssh -i ~/.ssh/RSA_PRIVATE_KEY root@XXX.XXX.XX.254
 ```
 - `-i` 옵션을 사용하여 개인 키(`.pem`) 파일을 지정
 - `root@<서버 IP>` 형식으로 NCP 서버의 퍼블릭 IP(`110.165.17.254`) 입력
+- exit 후 CLI 통해 다시 서버 접속할 때 위 명령어 사용
 
 ---
 
