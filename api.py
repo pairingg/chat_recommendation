@@ -19,7 +19,9 @@ class InfoRequest(BaseModel):
 
 
 class RecommendationResponse(BaseModel):
-    message: str
+    summary: str
+    analysis: str
+    recommendation: str
 
 
 def get_messages(user_id, room_id):
@@ -78,24 +80,13 @@ async def return_recommendation(request: InfoRequest):
         my_info, your_info = get_our_info(my_id, your_id)
         recommendation = recommend(summary, analysis, my_info, your_info)
 
-        message = f"""
-            대화 요약:
-            {summary}
-
-            호감도 분석:
-            {analysis}
-
-            다음 대화 주제 추천:
-            {recommendation}
-            """
-        return RecommendationResponse(message=message)
+        return RecommendationResponse(
+            summary=summary, analysis=analysis, recommendation=recommendation
+        )
     except Exception as e:
         print(f"Error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# 애플리케이션 실행 (직접 실행 시)
 if __name__ == "__main__":
-    uvicorn.run(
-        "api:app", reload=True, host="0.0.0.0", port=8086
-    )  # 임시로 포트 8888 지정
+    uvicorn.run("api:app", reload=True, host="0.0.0.0", port=8086)
