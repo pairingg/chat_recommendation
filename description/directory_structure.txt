@@ -6,6 +6,10 @@ CHATBOT
 │   ├── dummy_chat_logs.yaml
 │   └── recommender_prompt.yaml
 │
+├── description
+│   ├── directory_structure.txt
+│   └── guideline_ncp_cli_install_process.md
+│
 ├── legacy
 │   └── interest_analysis
 │   │   ├── description
@@ -31,16 +35,18 @@ CHATBOT
 │   │   ├── __init__.py
 │   │   ├── README.md
 │   │   └── requirements.txt
-│   │
+│   
 ├── modules
 │   ├── __init__.py
 │   ├── analyzer.py
 │   ├── integrator.py
 │   ├── recommender.py
 │   └── summarizer.py
+│
+├── .dockerignore  
 ├── .gitignore
 ├── api.py
-├── directory_structure.txt
+├── dockerfile
 ├── README.md
 └── requirements.txt
 
