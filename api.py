@@ -25,7 +25,9 @@ class RecommendationResponse(BaseModel):
 
 
 def get_messages(user_id, room_id):
-    integrator = Integrator(db="", collection="", room_id=room_id)  # MongoDB
+    integrator = Integrator(
+        db="pairing", collection="Chatting", room_id=room_id
+    )  # MongoDB
     chatlog = integrator.get_chatlog(user_id)
     cleanlog = integrator.clean_chatlog(chatlog)
 
@@ -33,7 +35,9 @@ def get_messages(user_id, room_id):
 
 
 def get_our_info(my_id, your_id, room_id):
-    integrator = Integrator(Integrator(db="", collection="", room_id=room_id))
+    integrator = Integrator(
+        Integrator(db="pairing", collection="Chatting", room_id=room_id)
+    )
     # MySQL:
     # integrator의 get_user_info 함수에서
     # conn 변수에 사전에 알맞게 정보 입력하면 됨으로
