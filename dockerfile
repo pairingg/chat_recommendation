@@ -18,6 +18,12 @@ RUN apt-get update && apt-get install -y \
     openjdk-17-jre-headless \
     && rm -rf /var/lib/apt/lists/*
 
+RUN wget https://downloads.mongodb.com/compass/mongosh-1.7.0-linux-x64.tgz \
+    && tar -xzvf mongosh-1.7.0-linux-x64.tgz \
+    && cp mongosh-1.7.0-linux-x64/bin/mongosh /usr/local/bin/mongosh \
+    && chmod +x /usr/local/bin/mongosh \
+    && rm -rf mongosh-1.7.0-linux-x64.tgz mongosh-1.7.0-linux-x64
+
 # requirements.txt 파일을 먼저 복사하고 의존성 설치 (캐시 활용)
 COPY requirements.txt .
 
