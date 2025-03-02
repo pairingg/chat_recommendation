@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mongo-container:
+    image: mongo:6.0
+    container_name: mongo-container
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pring987
+    networks:
+      - chat-recommendation-network
+
+  chat-recommendation:
+    build: .
+    container_name: chat-recommendation
+    restart: always
+    ports:
+      - "8086:8086"
+    depends_on:
+      - mongo-container
+      - mysql-container 
+    networks:
+      - chat-recommendation-network
+
+  mysql-container:
+    image: mysql:8.0.22
+    container_name: mysql-container
+    restart: always
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    environment:
+      MYSQL_ROOT_PASSWORD: #your_root_password
+    networks:
+      - chat-recommendation-network  
+
+networks:
+  chat-recommendation-network:
+    driver: bridge
