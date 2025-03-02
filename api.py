@@ -32,8 +32,8 @@ def get_messages(user_id, room_id):
     return cleanlog
 
 
-def get_our_info(my_id, your_id):
-    integrator = Integrator(Integrator(db="", collection="", room_id=""))
+def get_our_info(my_id, your_id, room_id):
+    integrator = Integrator(Integrator(db="", collection="", room_id=room_id))
     # MySQL:
     # integrator의 get_user_info 함수에서
     # conn 변수에 사전에 알맞게 정보 입력하면 됨으로
