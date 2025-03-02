@@ -18,7 +18,7 @@ class Integrator:
         db = client[self.db]
         collection = db[self.collection]
 
-        query = {"roomId": self.room_id}
+        query = {"chatroomId": self.room_id}
         messages = collection.find(query).sort("createdAt", 1)
 
         chatlog = "\n".join(
@@ -47,12 +47,12 @@ class Integrator:
         return "\n".join(result)
 
     def get_user_info(self, user_id):
-        
+
         conn = mysql.connector.connect(
-            host="MYSQL_HOST",  
-            user="MYSQL_USER",  
-            password="MYSQL_PASSWORD",  
-            database="MYSQL_DATABASE",  
+            host="MYSQL_HOST",
+            user="MYSQL_USER",
+            password="MYSQL_PASSWORD",
+            database="MYSQL_DATABASE",
         )
 
         cursor = conn.cursor(dictionary=True)
@@ -63,7 +63,7 @@ class Integrator:
             WHERE userId = %s
         """
         cursor.execute(query_member, (user_id,))
-        member_info = cursor.fetchone() 
+        member_info = cursor.fetchone()
         # member_info = {
         # "birth": "1995-03-25",
         # "mbti": "ENFP",
@@ -81,20 +81,20 @@ class Integrator:
 
         cursor.execute(query_hobby, (user_id,))
         hobby_rows = cursor.fetchall()
-        # 예시 
+        # 예시
         # hobby_rows = [
-            # {"hobby": "독서"},
-            # {"hobby": "영화 감상"},
-            # {"hobby": "운동"}
+        # {"hobby": "독서"},
+        # {"hobby": "영화 감상"},
+        # {"hobby": "운동"}
         # ]
         hobbies = [row["hobby"] for row in hobby_rows] if hobby_rows else []
-        # 예시 
+        # 예시
         # hobbies = ["독서", "영화 감상", "운동"]
 
         cursor.close()
         conn.close()
 
         return {
-            "사용자 기본 정보": member_info, # 딕셔너리
+            "사용자 기본 정보": member_info,  # 딕셔너리
             "사용자의 취미 목록": hobbies,  # 리스트
         }
