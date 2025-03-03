@@ -49,6 +49,7 @@ CHATBOT
 ├── .dockerignore  
 ├── .gitignore
 ├── api.py
+├── docker-compose.yaml
 ├── dockerfile
 ├── README.md
 └── requirements.txt

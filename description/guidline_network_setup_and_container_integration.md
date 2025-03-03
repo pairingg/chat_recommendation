@@ -121,10 +121,15 @@ mysql -h mysql-container -u root -p
 ```
 
 - 프롬프트에서 비밀번호 입력 후 `SHOW DATABASES;` 실행하여 데이터베이스 목록 확인 가능
+- 테스트 시 root로 접속해 접속 테스트를 진행했지만, 실제 서비스할 때는 `chat-recommendation` 컨테이너에서 MySQL 컨테이너 접속 시 사용할 유저(보안을 고려해 DB에 대한 적절한 권한을 부여한 chat-recommendation)를 만들어 이용
+
+```sh
+mysql -h mysql-container -u chat-recommendation -p
+```
 
 ---
 
-## 4. 최종 정리&#x20;
+## 4. 최종 정리
 
 ### 4.1. 네트워크 구성
 
