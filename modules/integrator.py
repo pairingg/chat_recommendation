@@ -46,55 +46,53 @@ class Integrator:
 
         return "\n".join(result)
 
-    def get_user_info(self, user_id):
+def get_user_info(self, user_id):
 
-        conn = mysql.connector.connect(
-            host="MYSQL_HOST",
-            user="MYSQL_USER",
-            password="MYSQL_PASSWORD",
-            database="MYSQL_DATABASE",
-        )
+    conn = mysql.connector.connect(
+        host="mysql-container",
+        user="chat-recommendation",     
+        password="limitedPass",         
+        database="pairing"      
+    )
+    cursor = conn.cursor(dictionary=True)
 
-        cursor = conn.cursor(dictionary=True)
+    query_member = """
+        SELECT birth, mbti, drink, smoking, residence, region 
+        FROM Member 
+        WHERE userId = %s
+    """
+    cursor.execute(query_member, (user_id,))
+    member_info = cursor.fetchone()
+    # member_info = {
+    # "birth": "1995-03-25",
+    # "mbti": "ENFP",
+    # "drink": "Y",
+    # "smoking": "N",
+    # "residence": "서울특별시",
+    # "region": "마포구"
+    # }
 
-        query_member = """
-            SELECT birth, mbti, drink, smoking, residence, region 
-            FROM Member 
-            WHERE userId = %s
-        """
-        cursor.execute(query_member, (user_id,))
-        member_info = cursor.fetchone()
-        # member_info = {
-        # "birth": "1995-03-25",
-        # "mbti": "ENFP",
-        # "drink": "Y",
-        # "smoking": "N",
-        # "residence": "서울특별시",
-        # "region": "마포구"
-        # }
+    query_hobby = """
+        SELECT hobby 
+        FROM Hobby 
+        WHERE userId = %s
+    """
+    cursor.execute(query_hobby, (user_id,))
+    hobby_rows = cursor.fetchall()
+    # 예시
+    # hobby_rows = [
+    # {"hobby": "독서"},
+    # {"hobby": "영화 감상"},
+    # {"hobby": "운동"}
+    # ]
+    hobbies = [row["hobby"] for row in hobby_rows] if hobby_rows else []
+    # 예시
+    # hobbies = ["독서", "영화 감상", "운동"]
 
-        query_hobby = """
-            SELECT hobby 
-            FROM Hobby 
-            WHERE userId = %s
-        """
+    cursor.close()
+    conn.close()
 
-        cursor.execute(query_hobby, (user_id,))
-        hobby_rows = cursor.fetchall()
-        # 예시
-        # hobby_rows = [
-        # {"hobby": "독서"},
-        # {"hobby": "영화 감상"},
-        # {"hobby": "운동"}
-        # ]
-        hobbies = [row["hobby"] for row in hobby_rows] if hobby_rows else []
-        # 예시
-        # hobbies = ["독서", "영화 감상", "운동"]
-
-        cursor.close()
-        conn.close()
-
-        return {
-            "사용자 기본 정보": member_info,  # 딕셔너리
-            "사용자의 취미 목록": hobbies,  # 리스트
-        }
+    return {
+        "사용자 기본 정보": member_info,
+        "사용자의 취미 목록": hobbies,
+    }
