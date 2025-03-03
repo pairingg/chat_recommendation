@@ -19,6 +19,8 @@ WORKDIR /pAIring_chatting_recommender_docker
 RUN apt-get update && apt-get install -y \
     openjdk-17-jre-headless \
     && rm -rf /var/lib/apt/lists/*
+# wget 설치 (MongoDB 클라이언트 설치 전에 wget이 필요)
+RUN apt-get update && apt-get install -y wget
 # 컨테이너 내부에서 mongodb 클라이언트 사용하기 위해 필요
 RUN wget https://downloads.mongodb.com/compass/mongosh-1.7.0-linux-x64.tgz \
     && tar -xzvf mongosh-1.7.0-linux-x64.tgz \
