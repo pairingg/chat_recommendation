@@ -57,10 +57,14 @@ def get_user_info(self, user_id):
     cursor = conn.cursor(dictionary=True)
 
     query_member = """
-        SELECT birth, mbti, drink, smoking, residence, region 
-        FROM Member 
-        WHERE userId = %s
+        SELECT age, birth, city, district, drink, gender, mbti, smoking
+        FROM member 
+        WHERE user_id = %s
     """
+# ------------------------------------------------------------------------------------------------------------
+# drink, gender, smoking: 숫자 의미 뭔지 전달 받은 후 변수 query_member 숫자 의미 채워 넣는 조건문 달아 str으로 기입
+# ------------------------------------------------------------------------------------------------------------
+
     cursor.execute(query_member, (user_id,))
     member_info = cursor.fetchone()
     # member_info = {
@@ -74,8 +78,8 @@ def get_user_info(self, user_id):
 
     query_hobby = """
         SELECT hobby 
-        FROM Hobby 
-        WHERE userId = %s
+        FROM hobby 
+        WHERE member_user_id = %s
     """
     cursor.execute(query_hobby, (user_id,))
     hobby_rows = cursor.fetchall()
