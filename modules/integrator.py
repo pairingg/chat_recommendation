@@ -61,9 +61,6 @@ def get_user_info(self, user_id):
         FROM member 
         WHERE user_id = %s
     """
-# ------------------------------------------------------------------------------------------------------------
-# drink, gender, smoking: 숫자 의미 뭔지 전달 받은 후 변수 query_member 숫자 의미 채워 넣는 조건문 달아 str으로 기입
-# ------------------------------------------------------------------------------------------------------------
 
     cursor.execute(query_member, (user_id,))
     member_info = cursor.fetchone()
@@ -75,6 +72,15 @@ def get_user_info(self, user_id):
     # "residence": "서울특별시",
     # "region": "마포구"
     # }
+
+    if member_info:
+        gender_map = {0: "남자", 1: "여자"}
+        drink_map = {0: "전혀 안마심", 1: "피할 수 없을 때만", 2: "가끔 마심", 3: "자주 마심", 4: "금주중"}
+        smoking_map = {0: "비흡연", 1: "가끔 피움", 2: "매일 피움", 3: "전자 담배", 4: "금연중"}
+
+        member_info["gender"] = gender_map.get(member_info["gender"], member_info["gender"])
+        member_info["drink"] = drink_map.get(member_info["drink"], member_info["drink"])
+        member_info["smoking"] = smoking_map.get(member_info["smoking"], member_info["smoking"])
 
     query_hobby = """
         SELECT hobby 
