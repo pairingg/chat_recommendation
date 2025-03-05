@@ -57,10 +57,11 @@ def get_user_info(self, user_id):
     cursor = conn.cursor(dictionary=True)
 
     query_member = """
-        SELECT birth, mbti, drink, smoking, residence, region 
-        FROM Member 
-        WHERE userId = %s
+        SELECT age, birth, city, district, drink, gender, mbti, smoking
+        FROM member 
+        WHERE user_id = %s
     """
+
     cursor.execute(query_member, (user_id,))
     member_info = cursor.fetchone()
     # member_info = {
@@ -72,10 +73,19 @@ def get_user_info(self, user_id):
     # "region": "마포구"
     # }
 
+    if member_info:
+        gender_map = {0: "남자", 1: "여자"}
+        drink_map = {0: "전혀 안마심", 1: "피할 수 없을 때만", 2: "가끔 마심", 3: "자주 마심", 4: "금주중"}
+        smoking_map = {0: "비흡연", 1: "가끔 피움", 2: "매일 피움", 3: "전자 담배", 4: "금연중"}
+
+        member_info["gender"] = gender_map.get(member_info["gender"], member_info["gender"])
+        member_info["drink"] = drink_map.get(member_info["drink"], member_info["drink"])
+        member_info["smoking"] = smoking_map.get(member_info["smoking"], member_info["smoking"])
+
     query_hobby = """
         SELECT hobby 
-        FROM Hobby 
-        WHERE userId = %s
+        FROM hobby 
+        WHERE member_user_id = %s
     """
     cursor.execute(query_hobby, (user_id,))
     hobby_rows = cursor.fetchall()
