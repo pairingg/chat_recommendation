@@ -1,6 +1,10 @@
 # directory_structure.txt
 
 CHATBOT
+├── .github/
+│   └──workflows/
+│        └── Deployment.yaml
+│
 ├── config
 │   ├── analyzer_prompt.yaml
 │   ├── dummy_chat_logs.yaml
@@ -52,4 +56,3 @@ CHATBOT
 ├── dockerfile
 ├── README.md
 └── requirements.txt
-
