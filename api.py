@@ -26,8 +26,11 @@ class RecommendationResponse(BaseModel):
 
 def get_messages(user_id, room_id):
     integrator = Integrator(
-        db="pairing", collection="Chatting", room_id=room_id
-    )  # MongoDB
+            mongo_address="mongodb://mongo-container:27017",
+            db="pairing", 
+            collection="Chatting", 
+            room_id=room_id
+            ) # MongoDB
     chatlog = integrator.get_chatlog(user_id)
     cleanlog = integrator.clean_chatlog(chatlog)
 
