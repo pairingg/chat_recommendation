@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from konlpy.tag import Okt
-from .integrator import *
+from integrator import *
 import yaml
 
 load_dotenv()
@@ -20,7 +20,7 @@ class Summarizer:
         )
         self.okt = Okt()
 
-    async def get_summary(self, chatlog):
+    def get_summary(self, chatlog):
         prompt = f"""
         당신은 호감도 분석을 위해 대화 내용을 요약하는 챗봇입니다.
         대화의 주체는 나 와 상대 두 사람입니다. 각 사람의 취미, 관심사, 취향 등 상대의 호감도를 높이기 위한 주제에 집중해 대화 내용을 요약하세요.
@@ -28,7 +28,7 @@ class Summarizer:
         일관된 내용들을 bullet point 를 이용해 정리해줘.
         대화 내용: {chatlog}
         """
-        response = self.llm(prompt)
+        response = self.llm.invoke(prompt)
 
         return "대화 요약: \n" + response.content
 
