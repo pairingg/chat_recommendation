@@ -19,9 +19,9 @@ class InfoRequest(BaseModel):
 
 
 class RecommendationResponse(BaseModel):
-    summary: str
-    analysis: str
-    recommendation: str
+    summary: list[str]
+    analysis: list[str]
+    recommendation: list[str]
 
 
 def get_messages(user_id, room_id):
@@ -88,7 +88,9 @@ async def return_recommendation(request: InfoRequest):
         recommendation = recommend(summary, analysis, my_info, your_info)
 
         return RecommendationResponse(
-            summary=summary, analysis=analysis, recommendation=recommendation
+            summary=summary, 
+            analysis=analysis, 
+            recommendation=recommendation
         )
     except Exception as e:
         print(f"Error: {str(e)}")
